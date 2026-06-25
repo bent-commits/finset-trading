@@ -1,6 +1,6 @@
-# Kongress vs. Indeks 📊
+# Finset Trading 📊
 
-Et selvoppdaterende dashbord som svarer på ett spørsmål, ærlig:
+**Kongress vs. Indeks** — et selvoppdaterende dashbord som svarer på ett spørsmål, ærlig:
 
 > **Hva lønner seg mest — å følge amerikanske kongresspolitikeres aksjekjøp, eller bare å kjøpe et indeksfond?**
 > Begge strategier starter med **1 500 000 kr**, og alt måles i norske kroner.

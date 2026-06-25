@@ -96,7 +96,7 @@ HTML = r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kongress vs. Indeks — Aksjedashbord</title>
+<title>Finset Trading — Kongress vs. Indeks</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <style>
@@ -115,6 +115,9 @@ header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;
   border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:22px}
 h1{font-size:23px;margin:0;font-weight:680;letter-spacing:-.3px}
 .sub{color:var(--muted);font-size:13px}
+.brand{width:44px;height:44px;border-radius:11px;background:var(--cong);color:#1a1500;
+  display:flex;align-items:center;justify-content:center;font-weight:780;font-size:17px;letter-spacing:-.5px;flex-shrink:0}
+h1 .accent{color:var(--cong)}
 .meta{margin-left:auto;color:var(--muted);font-size:12.5px;text-align:right}
 .pill{display:inline-block;background:var(--panel2);border:1px solid var(--border);
   border-radius:20px;padding:2px 10px;font-size:12px;color:var(--muted)}
@@ -159,9 +162,12 @@ footer b{color:var(--txt)}
 <body>
 <div class="wrap">
 <header>
-  <div>
-    <h1>Kongress&nbsp;vs.&nbsp;Indeks</h1>
-    <div class="sub">Hva slår hva: å følge amerikanske kongresspolitikeres aksjekjøp, eller å kjøpe indeksfond — målt i norske kroner.</div>
+  <div style="display:flex;align-items:center;gap:13px">
+    <div class="brand">FT</div>
+    <div>
+      <h1>Finset&nbsp;Trading</h1>
+      <div class="sub"><b style="color:var(--txt);font-weight:600">Kongress vs. Indeks</b> — lønner det seg å følge amerikanske politikeres aksjekjøp, eller å kjøpe indeksfond? Målt i kroner.</div>
+    </div>
   </div>
   <div class="meta" id="meta"></div>
 </header>
