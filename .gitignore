@@ -3,4 +3,9 @@ __pycache__/
 *.tmp
 *.log
 .DS_Store
-data/**/*.tmp
+
+# Regenererbare data – holdes utenfor git for å holde repoet lett.
+# (data/launch.json ER sporet – den fastsetter lanseringsdatoen og må bevares.)
+data/prices/
+data/trades.json
+data/results.json

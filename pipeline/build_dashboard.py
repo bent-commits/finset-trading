@@ -76,6 +76,9 @@ def build():
         "capital_nok": res["capital_nok"],
         "start": res["start"],
         "congress_name": res["congress_name"],
+        "star_name": res.get("star_name"),
+        "star_current": res.get("star_current"),
+        "star_history": res.get("star_history"),
         "n_trades": res["n_trades"],
         "config": res["config"],
         "strategies": res["strategies"],
@@ -128,7 +131,7 @@ h1 .accent{color:var(--cong)}
   padding:7px 15px;border-radius:8px;cursor:pointer;font-size:13.5px;font-weight:560;transition:.12s}
 .tab:hover{color:var(--txt)}
 .tab.active{background:var(--cong);color:#1a1500;border-color:var(--cong)}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-bottom:24px}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:15px 16px;position:relative;overflow:hidden}
 .card .bar{position:absolute;top:0;left:0;width:100%;height:3px}
 .card.win{box-shadow:0 0 0 1px var(--cong),0 6px 24px -8px rgba(245,196,81,.4)}
@@ -173,6 +176,7 @@ footer b{color:var(--txt)}
 </header>
 
 <div class="insight" id="insight"></div>
+<div id="starnote" style="font-size:13px;margin:-8px 0 18px"></div>
 
 <div class="tabs" id="tabs"></div>
 <div class="cards" id="cards"></div>
@@ -205,7 +209,9 @@ footer b{color:var(--txt)}
   45 dagers forsinkelse er bakt inn. Amerikanske aksjer regnes i USD og veksles til NOK til daglig kurs.
   Kostnader med: kurtasje/spread (0,20 %) og valutapåslag (0,50 %) per rebalansering, samt utbytteskatt.
   Indeksfondene belastes årlig forvaltningshonorar. Avkastning er total (utbytte reinvestert).
-  Risikotall: årlig svingning (volatilitet), største verdifall (drawdown) og Sharpe (avkastning per risiko).</div>
+  Risikotall: årlig svingning (volatilitet), største verdifall (drawdown) og Sharpe (avkastning per risiko).
+  <b>Stjernetrader</b> følger hver måned den ene politikeren hvis kjøp har gjort det best frem til da
+  (punkt-i-tid, uten å se i fasiten) — en ærlig test av om «følg den beste» faktisk fungerer.</div>
   <div class="disc"><b>Viktig:</b> Dette er en analyse / simulert papirportefølje — ikke ekte handel, og
   ingen kjøp eller salg utføres. Dette er ikke investeringsrådgivning og ingen anbefaling om å plassere
   ekte penger. Historisk avkastning er ingen garanti for fremtidig. Data: House-disclosures via
@@ -222,7 +228,10 @@ const COL = {}; const ORDER = [];
   COL["S&P 500 (USA)"] = '#4493f8';
   COL["Globalt indeksfond (MSCI World)"] = '#3fb950';
   COL["Oslo Bors (OSEBX)"] = '#db6d28';
-  ORDER.push(c, "S&P 500 (USA)", "Globalt indeksfond (MSCI World)", "Oslo Bors (OSEBX)");
+  if(DATA.star_name) COL[DATA.star_name] = '#bc8cff';
+  ORDER.push(c);
+  if(DATA.star_name) ORDER.push(DATA.star_name);
+  ORDER.push("S&P 500 (USA)", "Globalt indeksfond (MSCI World)", "Oslo Bors (OSEBX)");
 })();
 const HORIZONS = [["live","Live siden "+(DATA.launch||'')],["max","Siden "+DATA.start.slice(0,4)],["5y","5 år"],["3y","3 år"],["1y","1 år"]];
 const CAP = DATA.capital_nok;
@@ -321,6 +330,12 @@ function renderMeta(){
     `<span class="pill">Priser t.o.m. ${DATA.data_through}</span><br>`+
     `<span style="font-size:11.5px">Oppdatert ${DATA.generated_at} · siste politiker-handel ${DATA.latest_trade||'—'} · ${fmt(DATA.n_trades)} handler · House</span>`;
   document.getElementById('insight').innerHTML='💡 '+DATA.insight;
+  const sn=document.getElementById('starnote');
+  if(DATA.star_current&&sn){
+    sn.innerHTML=`<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COL[DATA.star_name]};margin-right:7px;vertical-align:middle"></span>`+
+      `<b style="color:var(--txt)">Stjernetrader</b> følger nå <b style="color:var(--txt)">${DATA.star_current}</b> `+
+      `<span style="color:var(--muted)">— bytter hver måned til politikeren med best resultat frem til da (punkt-i-tid, ingen fasit).</span>`;
+  }
 }
 
 function renderAll(){renderTabs();renderCards();renderMetrics();renderChart();}

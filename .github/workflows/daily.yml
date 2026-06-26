@@ -1,8 +1,8 @@
 name: Daglig oppdatering
 
 # 06:00 UTC = 08:00 norsk tid (sommertid) / 07:00 (vintertid).
-# GitHub-cron bruker UTC og justerer ikke for sommertid; endre linjen under
-# til '0 7 * * *' om du vil treffe 08:00 også om vinteren.
+# GitHub-cron bruker UTC og justerer ikke for sommertid; endre til '0 7 * * *'
+# om du vil treffe 08:00 også om vinteren.
 on:
   schedule:
     - cron: "0 6 * * *"
@@ -27,14 +27,24 @@ jobs:
         with:
           python-version: "3.12"
 
+      # Price/trade cache lives outside git (keeps the repo small) and is
+      # restored here so daily runs only fetch the fresh tail.
+      - name: Restore price cache
+        uses: actions/cache@v4
+        with:
+          path: data/prices
+          key: prices-${{ github.run_id }}
+          restore-keys: |
+            prices-
+
       - name: Run pipeline
         run: python run.py
 
-      - name: Commit updated data + dashboard
+      - name: Commit dashboard + launch date
         run: |
-          git config user.name "congress-dashboard-bot"
+          git config user.name "finset-trading-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data docs
+          git add docs data/launch.json
           if git diff --quiet --cached; then
             echo "Ingen endringer i dag."
           else

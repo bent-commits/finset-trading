@@ -50,6 +50,10 @@ BENCHMARKS = {
 FX_SYMBOL = "NOK=X"
 RESULTS_PATH = os.path.join(DATA_DIR, "results.json")
 CONGRESS_NAME = "Congress (House) – kopiportefolje"
+STAR_NAME = "Stjernetrader (beste politiker)"
+MIN_BUYS_QUALIFY = 20     # lifetime stock buys required to be eligible as a star
+SKILL_WINDOW = 365        # trailing days used to judge a politician's recent picks
+MIN_RECENT = 4            # min priced recent buys to score skill (anti-fluke)
 
 
 # --------------------------- price lookup (ffill) --------------------------
@@ -125,16 +129,31 @@ def _apply_cap(w, cap):
     return {k: v / s for k, v in w.items()} if s else w
 
 
-def build_universe(sig_rows, start, end):
-    """Collect every ticker that ever lands in a monthly top-(N+5) list."""
+def _politician_sig(trades):
+    """Per-politician sorted signal rows, for politicians with enough buys."""
+    rows_by = defaultdict(list)
+    buys_by = defaultdict(int)
+    for t in trades:
+        nm = t["politician"]
+        rows_by[nm].append((t["pub_date"], t["ticker"], t["side"], t["amount_mid"]))
+        if t["side"] == "buy":
+            buys_by[nm] += 1
+    return {nm: sorted(r) for nm, r in rows_by.items()
+            if nm.strip() and buys_by[nm] >= MIN_BUYS_QUALIFY}
+
+
+def build_universe(sig_rows, trades, start, end):
+    """Tickers ever held by the aggregate basket OR any star-eligible politician,
+    so both strategies are valued on a properly priced, diversified universe."""
     uni = set()
+    pol_sig = _politician_sig(trades)
     y, m = start.year, start.month
     while date(y, m, 1) <= end:
-        as_of = date(y, m, 1)
-        lookback = as_of - timedelta(days=LOOKBACK_DAYS)
-        w = weights_as_of(sig_rows, as_of.isoformat(), lookback.isoformat(),
-                           top_n=TOP_N + 5)
-        uni.update(w.keys())
+        as_of = date(y, m, 1).isoformat()
+        lb = (date(y, m, 1) - timedelta(days=LOOKBACK_DAYS)).isoformat()
+        uni.update(weights_as_of(sig_rows, as_of, lb, top_n=TOP_N + 5).keys())
+        for rows in pol_sig.values():
+            uni.update(weights_as_of(rows, as_of, lb, top_n=TOP_N).keys())
         m += 1
         if m > 12:
             m, y = 1, y + 1
@@ -142,43 +161,16 @@ def build_universe(sig_rows, start, end):
 
 
 # ------------------------------ simulation ---------------------------------
-def simulate(trades, pb, end):
-    sig = build_signal_index(trades)
-    cal = pb.calendar("SPY", START.isoformat(), end.isoformat())
-    if not cal:
-        raise RuntimeError("no trading calendar (SPY prices missing)")
-
-    daily_wht = (1 - WHT_DRAG_ANNUAL) ** (1 / TRADING_DAYS)
-
-    # ---- benchmarks: buy & hold from first day, daily fee drag ----
-    bench_series = {}
-    for name, cfg in BENCHMARKS.items():
-        sym = cfg["symbol"]
-        daily_ter = (1 - cfg["ter"]) ** (1 / TRADING_DAYS)
-        daily_div = (1 + cfg["div_addback"]) ** (1 / TRADING_DAYS)
-        p0 = pb.price(sym, cal[0])
-        fx0 = pb.price(FX_SYMBOL, cal[0]) if cfg["ccy"] == "USD" else 1.0
-        # initial NOK invested buys this many "units"
-        nav0 = CAPITAL_NOK
-        units = nav0 / (p0 * fx0)
-        series = []
-        drag = 1.0
-        for d in cal:
-            p = pb.price(sym, d) or p0
-            fx = pb.price(FX_SYMBOL, d) if cfg["ccy"] == "USD" else 1.0
-            drag *= daily_ter * daily_div
-            nav = units * p * fx * drag
-            series.append((d, round(nav, 2)))
-        bench_series[name] = series
-
-    # ---- congress basket: monthly rebalance ----
-    shares = defaultdict(float)   # ticker -> shares (USD priced)
-    cash_nok = CAPITAL_NOK
-    cong = []
+def run_basket(cal, pb, weight_at, daily_drag):
+    """Monthly-rebalanced long-only basket, valued daily in NOK, with costs.
+    weight_at(date_iso) -> {ticker: target_weight}. Empty => hold current book."""
+    shares = defaultdict(float)
+    series = []
     cur_ym = None
+    started = False
 
     def nav_now(d_iso, fx):
-        v = cash_nok
+        v = 0.0
         for tk, sh in shares.items():
             if sh:
                 p = pb.price(tk, d_iso)
@@ -188,50 +180,117 @@ def simulate(trades, pb, end):
 
     for d in cal:
         fx = pb.price(FX_SYMBOL, d) or 1.0
-        ym = (d[:7])
-        if ym != cur_ym:                       # first trading day of a new month
-            cur_ym = ym
-            as_of = date.fromisoformat(d)
-            lookback = (as_of - timedelta(days=LOOKBACK_DAYS)).isoformat()
-            w = weights_as_of(sig, d, lookback)
-            nav = nav_now(d, fx)
-            # only rebalance into names we actually have prices for
-            w = {tk: wt for tk, wt in w.items() if pb.price(tk, d)}
+        if d[:7] != cur_ym:                         # first trading day of a month
+            cur_ym = d[:7]
+            nav = nav_now(d, fx) if started else float(CAPITAL_NOK)
+            w = {tk: wt for tk, wt in weight_at(d).items() if pb.price(tk, d)}
             sw = sum(w.values())
-            if sw > 0:
+            if sw > 0 and nav > 0:
                 w = {tk: wt / sw for tk, wt in w.items()}
-                # target USD-priced share count per name
-                target_notional = {tk: wt * nav for tk, wt in w.items()}  # in NOK
-                # current notional per held name
-                cur_notional = {}
-                for tk in set(list(shares.keys()) + list(w.keys())):
+                target = {tk: wt * nav for tk, wt in w.items()}            # NOK
+                cur = {}
+                for tk in set(list(shares) + list(w)):
                     p = pb.price(tk, d)
-                    cur_notional[tk] = (shares[tk] * p * fx) if (p and shares[tk]) else 0.0
-                turnover = 0.0
-                for tk in set(list(cur_notional.keys()) + list(target_notional.keys())):
-                    turnover += abs(target_notional.get(tk, 0.0) - cur_notional.get(tk, 0.0))
-                cost = turnover * (TXN_COST + FX_FEE) / 1.0
-                # set new shares
-                new_shares = defaultdict(float)
-                for tk, notion in target_notional.items():
+                    cur[tk] = (shares[tk] * p * fx) if (p and shares[tk]) else 0.0
+                turnover = sum(abs(target.get(tk, 0.0) - cur.get(tk, 0.0))
+                               for tk in set(list(cur) + list(target)))
+                new = defaultdict(float)
+                for tk, notion in target.items():
                     p = pb.price(tk, d)
                     if p:
-                        new_shares[tk] = (notion / fx) / p   # NOK->USD->shares
-                shares = new_shares
-                cash_nok = -0.0  # fully invested; costs reduce NAV via haircut below
-                # apply cost as a one-off NAV haircut: scale shares down
-                nav_after = nav - cost
-                scale = nav_after / nav if nav > 0 else 1.0
+                        new[tk] = (notion / fx) / p                        # NOK->USD->shares
+                shares = new
+                scale = (nav - turnover * (TXN_COST + FX_FEE)) / nav        # one-off cost haircut
                 for tk in shares:
                     shares[tk] *= scale
-        # daily withholding drag on the invested book
-        for tk in list(shares.keys()):
-            shares[tk] *= daily_wht
-        cong.append((d, round(nav_now(d, fx), 2)))
+                started = True
+        for tk in list(shares):
+            shares[tk] *= daily_drag
+        series.append((d, round(nav_now(d, fx) if started else float(CAPITAL_NOK), 2)))
+    return series
 
-    out = {CONGRESS_NAME: cong}
+
+class StarPicker:
+    """Point-in-time 'follow the hottest politician' selector (no look-ahead).
+    Each month it ranks eligible politicians by the realised return of their
+    buys over the trailing window (entered on disclosure date, valued as of the
+    decision date) and follows the best one's current net-buy basket."""
+
+    def __init__(self, trades, pb):
+        self.pb = pb
+        self.by = _politician_sig(trades)
+        self.current = None
+        self.history = []
+
+    def _skill(self, rows, d_iso):
+        lo_iso = (date.fromisoformat(d_iso) - timedelta(days=SKILL_WINDOW)).isoformat()
+        lo = bisect.bisect_left(rows, (lo_iso,))
+        hi = bisect.bisect_right(rows, (d_iso, chr(0x10FFFF)))
+        rets = []
+        for j in range(lo, hi):
+            pd, tk, side, _ = rows[j]
+            if side != "buy":
+                continue
+            p0 = self.pb.price(tk, pd)
+            p1 = self.pb.price(tk, d_iso)
+            if p0 and p1 and p0 > 0:
+                rets.append(p1 / p0 - 1)
+        return sum(rets) / len(rets) if len(rets) >= MIN_RECENT else None
+
+    def weights(self, d_iso):
+        best, best_sk = None, None
+        for nm, rows in self.by.items():
+            sk = self._skill(rows, d_iso)
+            if sk is None:
+                continue
+            if best_sk is None or sk > best_sk:
+                best, best_sk = nm, sk
+        self.history.append((d_iso, best))
+        if best is None:
+            return {}
+        self.current = best
+        lookback = (date.fromisoformat(d_iso) - timedelta(days=LOOKBACK_DAYS)).isoformat()
+        return weights_as_of(self.by[best], d_iso, lookback, top_n=TOP_N, cap=MAX_WEIGHT)
+
+
+def simulate(trades, pb, end):
+    sig = build_signal_index(trades)
+    cal = pb.calendar("SPY", START.isoformat(), end.isoformat())
+    if not cal:
+        raise RuntimeError("no trading calendar (SPY prices missing)")
+
+    # ---- benchmarks: buy & hold from first day, daily fee drag ----
+    bench_series = {}
+    for name, cfg in BENCHMARKS.items():
+        sym = cfg["symbol"]
+        daily_ter = (1 - cfg["ter"]) ** (1 / TRADING_DAYS)
+        daily_div = (1 + cfg["div_addback"]) ** (1 / TRADING_DAYS)
+        p0 = pb.price(sym, cal[0])
+        fx0 = pb.price(FX_SYMBOL, cal[0]) if cfg["ccy"] == "USD" else 1.0
+        units = CAPITAL_NOK / (p0 * fx0)
+        series, drag = [], 1.0
+        for d in cal:
+            p = pb.price(sym, d) or p0
+            fx = pb.price(FX_SYMBOL, d) if cfg["ccy"] == "USD" else 1.0
+            drag *= daily_ter * daily_div
+            series.append((d, round(units * p * fx * drag, 2)))
+        bench_series[name] = series
+
+    daily_wht = (1 - WHT_DRAG_ANNUAL) ** (1 / TRADING_DAYS)
+
+    def agg_weight(d_iso):
+        lookback = (date.fromisoformat(d_iso) - timedelta(days=LOOKBACK_DAYS)).isoformat()
+        return weights_as_of(sig, d_iso, lookback)
+
+    cong = run_basket(cal, pb, agg_weight, daily_wht)
+    picker = StarPicker(trades, pb)
+    star = run_basket(cal, pb, picker.weights, daily_wht)
+
+    out = {CONGRESS_NAME: cong, STAR_NAME: star}
     out.update(bench_series)
-    return out
+    star_info = {"current": picker.current,
+                 "history": [h for h in picker.history if h[1]][-12:]}
+    return out, star_info
 
 
 # ------------------------------ metrics ------------------------------------
@@ -309,7 +368,7 @@ def run():
 
     sig = build_signal_index(trades)
     print("Building universe of held tickers...")
-    universe = build_universe(sig, START, end)
+    universe = build_universe(sig, trades, START, end)
     print(f"  {len(universe)} tickers ever held")
 
     pb = PriceBook()
@@ -328,7 +387,7 @@ def run():
         print(f"  no price data for {len(missing)} (likely delisted): {missing[:12]}")
 
     print("Simulating...")
-    series = simulate(trades, pb, end)
+    series, star_info = simulate(trades, pb, end)
 
     strategies = {}
     for name, s in series.items():
@@ -343,6 +402,9 @@ def run():
         "capital_nok": CAPITAL_NOK,
         "start": START.isoformat(),
         "congress_name": CONGRESS_NAME,
+        "star_name": STAR_NAME,
+        "star_current": star_info["current"],
+        "star_history": star_info["history"],
         "config": {
             "top_n": TOP_N, "lookback_days": LOOKBACK_DAYS, "max_weight": MAX_WEIGHT,
             "txn_cost": TXN_COST, "fx_fee": FX_FEE, "wht_drag": WHT_DRAG_ANNUAL,

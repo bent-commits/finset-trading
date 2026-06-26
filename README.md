@@ -16,6 +16,7 @@ Fire strategier sammenlignes side om side:
 | Strategi | Hva det er |
 |---|---|
 | **Congress (House)** | Speiler hva representantene i Representantenes hus netto kjøper mest av |
+| **Stjernetrader** | Følger hver måned den ene politikeren med best resultat frem til da (punkt-i-tid) |
 | **S&P 500 (USA)** | Det amerikanske markedet (SPY) |
 | **Globalt indeksfond** | Verdensindeksen MSCI World (URTH) — typen KLP/DNB Global Indeks |
 | **Oslo Børs** | Hovedindeksen OSEBX |
