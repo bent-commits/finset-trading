@@ -76,9 +76,9 @@ def build():
         "capital_nok": res["capital_nok"],
         "start": res["start"],
         "congress_name": res["congress_name"],
-        "star_name": res.get("star_name"),
-        "star_current": res.get("star_current"),
-        "star_history": res.get("star_history"),
+        "dnb_name": res.get("dnb_name"),
+        "dnb_total": res.get("dnb_total"),
+        "dnb_funds": res.get("dnb_funds", []),
         "n_trades": res["n_trades"],
         "config": res["config"],
         "strategies": res["strategies"],
@@ -176,14 +176,14 @@ footer b{color:var(--txt)}
 </header>
 
 <div class="insight" id="insight"></div>
-<div id="starnote" style="font-size:13px;margin:-8px 0 18px"></div>
+<div id="dnbnote" style="font-size:13px;margin:-8px 0 18px"></div>
 
 <div class="tabs" id="tabs"></div>
 <div class="cards" id="cards"></div>
 
 <div class="grid2">
   <div class="panel">
-    <h2>Verdiutvikling — 1 500 000 kr investert ved periodestart</h2>
+    <h2>Verdiutvikling — <span id="capnote"></span> investert ved periodestart</h2>
     <div class="chartbox"><canvas id="chart"></canvas></div>
   </div>
   <div class="panel">
@@ -210,8 +210,9 @@ footer b{color:var(--txt)}
   Kostnader med: kurtasje/spread (0,20 %) og valutapåslag (0,50 %) per rebalansering, samt utbytteskatt.
   Indeksfondene belastes årlig forvaltningshonorar. Avkastning er total (utbytte reinvestert).
   Risikotall: årlig svingning (volatilitet), største verdifall (drawdown) og Sharpe (avkastning per risiko).
-  <b>Stjernetrader</b> følger hver måned den ene politikeren hvis kjøp har gjort det best frem til da
-  (punkt-i-tid, uten å se i fasiten) — en ærlig test av om «følg den beste» faktisk fungerer.</div>
+  <b>DNB-fond (vår portefølje)</b> er deres faktiske beholdning vist som én samlet boks: DNB Global Indeks,
+  DNB Norge Indeks, DNB Global Emerging Markets Indeks og DNB Aktiv Rente, vektet etter de faktiske beløpene
+  (Aktiv Rente er anslått som et stabilt rentefond, ~3 %/år, da ingen gratis kursserie finnes for det).</div>
   <div class="disc"><b>Viktig:</b> Dette er en analyse / simulert papirportefølje — ikke ekte handel, og
   ingen kjøp eller salg utføres. Dette er ikke investeringsrådgivning og ingen anbefaling om å plassere
   ekte penger. Historisk avkastning er ingen garanti for fremtidig. Data: House-disclosures via
@@ -228,9 +229,9 @@ const COL = {}; const ORDER = [];
   COL["S&P 500 (USA)"] = '#4493f8';
   COL["Globalt indeksfond (MSCI World)"] = '#3fb950';
   COL["Oslo Bors (OSEBX)"] = '#db6d28';
-  if(DATA.star_name) COL[DATA.star_name] = '#bc8cff';
+  if(DATA.dnb_name) COL[DATA.dnb_name] = '#14b8a6';
   ORDER.push(c);
-  if(DATA.star_name) ORDER.push(DATA.star_name);
+  if(DATA.dnb_name) ORDER.push(DATA.dnb_name);
   ORDER.push("S&P 500 (USA)", "Globalt indeksfond (MSCI World)", "Oslo Bors (OSEBX)");
 })();
 const HORIZONS = [["live","Live siden "+(DATA.launch||'')],["max","Siden "+DATA.start.slice(0,4)],["5y","5 år"],["3y","3 år"],["1y","1 år"]];
@@ -330,11 +331,12 @@ function renderMeta(){
     `<span class="pill">Priser t.o.m. ${DATA.data_through}</span><br>`+
     `<span style="font-size:11.5px">Oppdatert ${DATA.generated_at} · siste politiker-handel ${DATA.latest_trade||'—'} · ${fmt(DATA.n_trades)} handler · House + Senat</span>`;
   document.getElementById('insight').innerHTML='💡 '+DATA.insight;
-  const sn=document.getElementById('starnote');
-  if(DATA.star_current&&sn){
-    sn.innerHTML=`<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COL[DATA.star_name]};margin-right:7px;vertical-align:middle"></span>`+
-      `<b style="color:var(--txt)">Stjernetrader</b> følger nå <b style="color:var(--txt)">${DATA.star_current}</b> `+
-      `<span style="color:var(--muted)">— bytter hver måned til politikeren med best resultat frem til da (punkt-i-tid, ingen fasit).</span>`;
+  const cap=document.getElementById('capnote'); if(cap) cap.textContent=fmt(DATA.capital_nok)+' kr';
+  const sn=document.getElementById('dnbnote');
+  if(DATA.dnb_name&&sn){
+    const parts=(DATA.dnb_funds||[]).map(f=>`${f.name} ${Math.round(f.weight*100)} %`).join(' · ');
+    sn.innerHTML=`<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COL[DATA.dnb_name]};margin-right:7px;vertical-align:middle"></span>`+
+      `<b style="color:var(--txt)">DNB-fond (vår portefølje)</b>: ${parts} — faktisk ${fmt(DATA.dnb_total)} kr.`;
   }
 }
 

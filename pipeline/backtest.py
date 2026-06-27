@@ -27,7 +27,7 @@ import fetch_trades
 
 # ----------------------------- configuration ------------------------------
 START = date(2019, 1, 1)         # simulation start (post a full market cycle)
-CAPITAL_NOK = 1_500_000
+CAPITAL_NOK = 1_814_000          # the user's actual total across the DNB funds
 TOP_N = 20                       # names held in the congress basket
 LOOKBACK_DAYS = 365              # trailing window for the buy signal
 MAX_WEIGHT = 0.10                # single-name cap (diversification)
@@ -50,10 +50,19 @@ BENCHMARKS = {
 FX_SYMBOL = "NOK=X"
 RESULTS_PATH = os.path.join(DATA_DIR, "results.json")
 CONGRESS_NAME = "Congress (House + Senat)"
-STAR_NAME = "Stjernetrader (beste politiker)"
-MIN_BUYS_QUALIFY = 20     # lifetime stock buys required to be eligible as a star
-SKILL_WINDOW = 365        # trailing days used to judge a politician's recent picks
-MIN_RECENT = 4            # min priced recent buys to score skill (anti-fluke)
+
+# The user's actual DNB fund portfolio, shown as one blended buy-and-hold box.
+# Amounts define the weights; index proxies via Yahoo. Aktiv Rente (a NOK bond
+# fund, no free price series) is approximated as a steady ~3%/yr sleeve.
+DNB_NAME = "DNB-fond (vår portefølje)"
+DNB_FUNDS = [
+    {"name": "DNB Global Indeks A",   "symbol": "URTH",     "ccy": "USD", "amount": 900000, "ter": 0.0030},
+    {"name": "DNB Norge Indeks A",    "symbol": "OSEBX.OL", "ccy": "NOK", "amount": 360000, "ter": 0.0030, "div_addback": 0.034},
+    {"name": "DNB Global EM Indeks",  "symbol": "EEM",      "ccy": "USD", "amount": 180000, "ter": 0.0040},
+    {"name": "DNB Aktiv Rente",       "symbol": None,       "amount": 374000, "fixed_annual": 0.030},
+]
+DNB_TOTAL = sum(f["amount"] for f in DNB_FUNDS)
+DNB_SYMBOLS = [f["symbol"] for f in DNB_FUNDS if f["symbol"]]
 
 
 # --------------------------- price lookup (ffill) --------------------------
@@ -129,31 +138,14 @@ def _apply_cap(w, cap):
     return {k: v / s for k, v in w.items()} if s else w
 
 
-def _politician_sig(trades):
-    """Per-politician sorted signal rows, for politicians with enough buys."""
-    rows_by = defaultdict(list)
-    buys_by = defaultdict(int)
-    for t in trades:
-        nm = t["politician"]
-        rows_by[nm].append((t["pub_date"], t["ticker"], t["side"], t["amount_mid"]))
-        if t["side"] == "buy":
-            buys_by[nm] += 1
-    return {nm: sorted(r) for nm, r in rows_by.items()
-            if nm.strip() and buys_by[nm] >= MIN_BUYS_QUALIFY}
-
-
-def build_universe(sig_rows, trades, start, end):
-    """Tickers ever held by the aggregate basket OR any star-eligible politician,
-    so both strategies are valued on a properly priced, diversified universe."""
+def build_universe(sig_rows, start, end):
+    """Every ticker that ever lands in a monthly top-(N+5) net-buy list."""
     uni = set()
-    pol_sig = _politician_sig(trades)
     y, m = start.year, start.month
     while date(y, m, 1) <= end:
         as_of = date(y, m, 1).isoformat()
         lb = (date(y, m, 1) - timedelta(days=LOOKBACK_DAYS)).isoformat()
         uni.update(weights_as_of(sig_rows, as_of, lb, top_n=TOP_N + 5).keys())
-        for rows in pol_sig.values():
-            uni.update(weights_as_of(rows, as_of, lb, top_n=TOP_N).keys())
         m += 1
         if m > 12:
             m, y = 1, y + 1
@@ -210,47 +202,40 @@ def run_basket(cal, pb, weight_at, daily_drag):
     return series
 
 
-class StarPicker:
-    """Point-in-time 'follow the hottest politician' selector (no look-ahead).
-    Each month it ranks eligible politicians by the realised return of their
-    buys over the trailing window (entered on disclosure date, valued as of the
-    decision date) and follows the best one's current net-buy basket."""
-
-    def __init__(self, trades, pb):
-        self.pb = pb
-        self.by = _politician_sig(trades)
-        self.current = None
-        self.history = []
-
-    def _skill(self, rows, d_iso):
-        lo_iso = (date.fromisoformat(d_iso) - timedelta(days=SKILL_WINDOW)).isoformat()
-        lo = bisect.bisect_left(rows, (lo_iso,))
-        hi = bisect.bisect_right(rows, (d_iso, chr(0x10FFFF)))
-        rets = []
-        for j in range(lo, hi):
-            pd, tk, side, _ = rows[j]
-            if side != "buy":
-                continue
-            p0 = self.pb.price(tk, pd)
-            p1 = self.pb.price(tk, d_iso)
-            if p0 and p1 and p0 > 0:
-                rets.append(p1 / p0 - 1)
-        return sum(rets) / len(rets) if len(rets) >= MIN_RECENT else None
-
-    def weights(self, d_iso):
-        best, best_sk = None, None
-        for nm, rows in self.by.items():
-            sk = self._skill(rows, d_iso)
-            if sk is None:
-                continue
-            if best_sk is None or sk > best_sk:
-                best, best_sk = nm, sk
-        self.history.append((d_iso, best))
-        if best is None:
-            return {}
-        self.current = best
-        lookback = (date.fromisoformat(d_iso) - timedelta(days=LOOKBACK_DAYS)).isoformat()
-        return weights_as_of(self.by[best], d_iso, lookback, top_n=TOP_N, cap=MAX_WEIGHT)
+def dnb_series(cal, pb):
+    """Blended buy-and-hold of the user's actual DNB funds, valued daily in NOK.
+    Index sleeves use Yahoo (with TER drag); the Aktiv Rente bond sleeve is a
+    steady fixed-rate approximation (no free NAV series exists for it)."""
+    d0 = date.fromisoformat(cal[0])
+    sleeves = []
+    for f in DNB_FUNDS:
+        nav0 = CAPITAL_NOK * f["amount"] / DNB_TOTAL
+        if f["symbol"] is None:
+            sleeves.append({"bond": True, "nav0": nav0, "r": f.get("fixed_annual", 0.03)})
+        else:
+            p0 = pb.price(f["symbol"], cal[0])
+            fx0 = pb.price(FX_SYMBOL, cal[0]) if f["ccy"] == "USD" else 1.0
+            sleeves.append({"bond": False, "units": nav0 / (p0 * fx0), "sym": f["symbol"],
+                            "ccy": f["ccy"], "drag": 1.0,
+                            "dter": (1 - f["ter"]) ** (1 / TRADING_DAYS),
+                            "ddiv": (1 + f.get("div_addback", 0.0)) ** (1 / TRADING_DAYS)})
+    series = []
+    for d in cal:
+        fx = pb.price(FX_SYMBOL, d) or 1.0
+        tot = 0.0
+        for s in sleeves:
+            if s["bond"]:
+                days = (date.fromisoformat(d) - d0).days
+                tot += s["nav0"] * ((1 + s["r"]) ** (days / 365.0))
+            else:
+                p = pb.price(s["sym"], d)
+                if not p:
+                    continue
+                fxx = fx if s["ccy"] == "USD" else 1.0
+                s["drag"] *= s["dter"] * s["ddiv"]
+                tot += s["units"] * p * fxx * s["drag"]
+        series.append((d, round(tot, 2)))
+    return series
 
 
 def simulate(trades, pb, end):
@@ -283,14 +268,11 @@ def simulate(trades, pb, end):
         return weights_as_of(sig, d_iso, lookback)
 
     cong = run_basket(cal, pb, agg_weight, daily_wht)
-    picker = StarPicker(trades, pb)
-    star = run_basket(cal, pb, picker.weights, daily_wht)
+    dnb = dnb_series(cal, pb)
 
-    out = {CONGRESS_NAME: cong, STAR_NAME: star}
+    out = {CONGRESS_NAME: cong, DNB_NAME: dnb}
     out.update(bench_series)
-    star_info = {"current": picker.current,
-                 "history": [h for h in picker.history if h[1]][-12:]}
-    return out, star_info
+    return out
 
 
 # ------------------------------ metrics ------------------------------------
@@ -368,11 +350,13 @@ def run():
 
     sig = build_signal_index(trades)
     print("Building universe of held tickers...")
-    universe = build_universe(sig, trades, START, end)
+    universe = build_universe(sig, START, end)
     print(f"  {len(universe)} tickers ever held")
 
     pb = PriceBook()
-    need = sorted(universe) + [c["symbol"] for c in BENCHMARKS.values()] + [FX_SYMBOL]
+    need = list(dict.fromkeys(
+        sorted(universe) + DNB_SYMBOLS
+        + [c["symbol"] for c in BENCHMARKS.values()] + [FX_SYMBOL]))
     print(f"Fetching prices for {len(need)} symbols (cached after first run)...")
     missing = []
     for i, sym in enumerate(need, 1):
@@ -387,7 +371,7 @@ def run():
         print(f"  no price data for {len(missing)} (likely delisted): {missing[:12]}")
 
     print("Simulating...")
-    series, star_info = simulate(trades, pb, end)
+    series = simulate(trades, pb, end)
 
     strategies = {}
     for name, s in series.items():
@@ -402,9 +386,10 @@ def run():
         "capital_nok": CAPITAL_NOK,
         "start": START.isoformat(),
         "congress_name": CONGRESS_NAME,
-        "star_name": STAR_NAME,
-        "star_current": star_info["current"],
-        "star_history": star_info["history"],
+        "dnb_name": DNB_NAME,
+        "dnb_total": DNB_TOTAL,
+        "dnb_funds": [{"name": f["name"], "weight": round(f["amount"] / DNB_TOTAL, 4),
+                       "amount": f["amount"]} for f in DNB_FUNDS],
         "config": {
             "top_n": TOP_N, "lookback_days": LOOKBACK_DAYS, "max_weight": MAX_WEIGHT,
             "txn_cost": TXN_COST, "fx_fee": FX_FEE, "wht_drag": WHT_DRAG_ANNUAL,
@@ -428,7 +413,7 @@ def _print_summary(result):
             continue
         rows.sort(key=lambda r: r[1]["end_value"], reverse=True)
         span = f"{rows[0][1]['from']} -> {rows[0][1]['to']}"
-        print(f"\n=== {title}  ({span}) — start 1 500 000 kr ===")
+        print(f"\n=== {title}  ({span}) — start {CAPITAL_NOK:,.0f} kr ===")
         for name, m in rows:
             print(f"  {name:{name_w}s} {m['end_value']:>13,.0f} kr  "
                   f"ret={m['total_return']*100:6.1f}%  CAGR={m['cagr']*100:5.1f}%  "
