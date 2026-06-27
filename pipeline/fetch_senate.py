@@ -59,8 +59,8 @@ def _list_ptrs(s, start_date):
         if not rows:
             break
         for row in rows:
-            name = html.unescape(re.sub(r"<[^>]+>", " ", row[0] + " " + row[1])).strip()
-            name = re.sub(r"\s+", " ", name)
+            name = html.unescape(re.sub(r"<[^>]+>", " ", row[0] + " " + row[1]))
+            name = re.sub(r"\s+", " ", name).replace(" ,", ",").strip().rstrip(",").strip()
             m = re.search(r'href="(/search/view/ptr/([^/"]+)/?)"', row[3])
             if not m:
                 continue                          # paper filing -> not parseable
