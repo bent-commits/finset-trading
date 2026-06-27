@@ -15,7 +15,7 @@ Fire strategier sammenlignes side om side:
 
 | Strategi | Hva det er |
 |---|---|
-| **Congress (House)** | Speiler hva representantene i Representantenes hus netto kjøper mest av |
+| **Congress (Hus + Senat)** | Speiler hva kongresspolitikerne (begge kamre) netto kjøper mest av |
 | **Stjernetrader** | Følger hver måned den ene politikeren med best resultat frem til da (punkt-i-tid) |
 | **S&P 500 (USA)** | Det amerikanske markedet (SPY) |
 | **Globalt indeksfond** | Verdensindeksen MSCI World (URTH) — typen KLP/DNB Global Indeks |
@@ -53,13 +53,13 @@ Det henter ferske data, kjører backtesten og bygger `docs/index.html`. Åpne de
 
 ## Datakilder
 
-- **Handler (House):** [house-stock-watcher-data](https://github.com/TattooedHead/house-stock-watcher-data), utledet fra de offisielle PTR-innleveringene hos House Clerk.
+- **Handler (Representantenes hus):** [house-stock-watcher-data](https://github.com/TattooedHead/house-stock-watcher-data), utledet fra de offisielle PTR-innleveringene hos House Clerk.
+- **Handler (Senatet):** den offisielle [Senate eFD](https://efdsearch.senate.gov), hentet via `curl_cffi` (etterligner ekte nettleser-TLS for å komme forbi WAF-en). Parsede transaksjoner committes som et «seed» og oppdateres inkrementelt.
 - **Priser og valuta:** Yahoo Finance.
-- **Senatet** kommer som tillegg (ingen fersk gratiskilde akkurat nå).
 
 ## Begrensninger (ærlig liste)
 
-- Dekker foreløpig **kun Representantenes hus**, ikke Senatet.
+- Dekker **både Representantenes hus og Senatet** (kun aksjer — opsjoner, fond, krypto m.m. utelates).
 - Aksjer som er kjøpt opp / avnotert (uten priser) utelates — kan gi en liten skjevhet.
 - Beløp rapporteres i intervaller; vi bruker midtpunktet.
 - Dette er en **simulert papirportefølje**, ikke ekte handel.

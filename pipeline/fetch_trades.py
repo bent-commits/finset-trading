@@ -15,7 +15,7 @@ import os
 HOUSE_URL = ("https://raw.githubusercontent.com/TattooedHead/"
              "house-stock-watcher-data/main/data/all_transactions.json")
 
-TRADES_PATH = os.path.join(DATA_DIR, "trades.json")
+TRADES_PATH = os.path.join(DATA_DIR, "house_trades.json")
 
 VALID_TICKER = re.compile(r"^[A-Z][A-Z.\-]{0,6}$")
 
@@ -37,7 +37,7 @@ def _clean_ticker(tk):
         return None
     if not VALID_TICKER.match(tk):
         return None
-    return tk
+    return tk.replace(".", "-")   # Yahoo uses BRK-B, BF-B (class shares)
 
 
 def normalize_house(rows):

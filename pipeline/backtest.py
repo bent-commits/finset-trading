@@ -49,7 +49,7 @@ BENCHMARKS = {
 }
 FX_SYMBOL = "NOK=X"
 RESULTS_PATH = os.path.join(DATA_DIR, "results.json")
-CONGRESS_NAME = "Congress (House) – kopiportefolje"
+CONGRESS_NAME = "Congress (House + Senat)"
 STAR_NAME = "Stjernetrader (beste politiker)"
 MIN_BUYS_QUALIFY = 20     # lifetime stock buys required to be eligible as a star
 SKILL_WINDOW = 365        # trailing days used to judge a politician's recent picks

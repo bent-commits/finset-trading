@@ -204,7 +204,7 @@ footer b{color:var(--txt)}
 
 <footer>
   <div><b>Metode:</b> Congress-porteføljen holder hver måned de 20 aksjene med størst netto kjøp blant
-  House-politikerne siste 12 måneder, vektet etter kjøpsstørrelse (maks 10 % per aksje).
+  kongresspolitikerne (Representantenes hus + Senatet) siste 12 måneder, vektet etter kjøpsstørrelse (maks 10 % per aksje).
   Handler legges inn på <b>publiseringsdato</b> (ikke politikerens hemmelige handelsdato) — opptil
   45 dagers forsinkelse er bakt inn. Amerikanske aksjer regnes i USD og veksles til NOK til daglig kurs.
   Kostnader med: kurtasje/spread (0,20 %) og valutapåslag (0,50 %) per rebalansering, samt utbytteskatt.
@@ -215,7 +215,7 @@ footer b{color:var(--txt)}
   <div class="disc"><b>Viktig:</b> Dette er en analyse / simulert papirportefølje — ikke ekte handel, og
   ingen kjøp eller salg utføres. Dette er ikke investeringsrådgivning og ingen anbefaling om å plassere
   ekte penger. Historisk avkastning er ingen garanti for fremtidig. Data: House-disclosures via
-  house-stock-watcher, priser via Yahoo Finance. Senatet kommer som tillegg.</div>
+  house-stock-watcher, Senatet fra den offisielle Senate eFD, priser via Yahoo Finance.</div>
 </footer>
 </div>
 
@@ -328,7 +328,7 @@ function renderTrades(){
 function renderMeta(){
   document.getElementById('meta').innerHTML=
     `<span class="pill">Priser t.o.m. ${DATA.data_through}</span><br>`+
-    `<span style="font-size:11.5px">Oppdatert ${DATA.generated_at} · siste politiker-handel ${DATA.latest_trade||'—'} · ${fmt(DATA.n_trades)} handler · House</span>`;
+    `<span style="font-size:11.5px">Oppdatert ${DATA.generated_at} · siste politiker-handel ${DATA.latest_trade||'—'} · ${fmt(DATA.n_trades)} handler · House + Senat</span>`;
   document.getElementById('insight').innerHTML='💡 '+DATA.insight;
   const sn=document.getElementById('starnote');
   if(DATA.star_current&&sn){

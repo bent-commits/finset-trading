@@ -27,6 +27,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install dependencies
+        run: pip install --quiet curl_cffi   # browser-TLS client for the Senate eFD
+
       # Price/trade cache lives outside git (keeps the repo small) and is
       # restored here so daily runs only fetch the fresh tail.
       - name: Restore price cache
@@ -44,7 +47,7 @@ jobs:
         run: |
           git config user.name "finset-trading-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add docs data/launch.json
+          git add docs data/launch.json data/senate_trades.json data/senate_seen.json
           if git diff --quiet --cached; then
             echo "Ingen endringer i dag."
           else

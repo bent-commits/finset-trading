@@ -8,4 +8,8 @@ __pycache__/
 # (data/launch.json ER sporet – den fastsetter lanseringsdatoen og må bevares.)
 data/prices/
 data/trades.json
+data/house_trades.json
 data/results.json
+
+# data/senate_trades.json + data/senate_seen.json ARE tracked — they seed the
+# Senate history (expensive to rescrape from the official eFD each time).
