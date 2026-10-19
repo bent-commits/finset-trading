@@ -5,7 +5,7 @@ Tillitsnivå per tall: **B** = bekreftet, **A** = antatt, **IF** = ikke funnet. 
 
 ## Anbefalingen
 
-1. **Oslo:** Kom tilbake med **150-220 m² i Akersgata**, mellom Norrøna (nr. 30) og Klättermusen (nr. 43). Bent har fått opplyst at Houdini Hub (Hegdehaugsveien 34, 70 m²) ble stengt i 2022. Dette er en ny etablering, og første spørsmål fra Houdini blir hvorfor det skal gå bedre denne gangen. Gjør butikken til en **Houdini Circle Oslo** med kjøp, leie, reparasjon og brukt under samme tak. Ikke Karl Johan: husleien krever omtrent 17 MNOK i netto salg for å gå i null, og det er nær dobbelt så mye som Houdini omsetter i Norge i dag.
+1. **Oslo:** Kom tilbake med **150-220 m² i Akersgata**, mellom Norrøna (nr. 30) og Klättermusen (nr. 43). Houdini Hub (Hegdehaugsveien 34, 70 m²) ble stengt i 2022 (Google). Dette er en ny etablering, og første spørsmål fra Houdini blir hvorfor det skal gå bedre denne gangen. Gjør butikken til en **Houdini Circle Oslo** med kjøp, leie, reparasjon og brukt under samme tak. Ikke Karl Johan: husleien krever omtrent 17 MNOK i netto salg for å gå i null, og det er nær dobbelt så mye som Houdini omsetter i Norge i dag.
 2. **Tromsø:** Ja til en **vinter-pop-up (november-mars)** i Storgata, gjerne koblet til utleie gjennom en lokal aktør. Nei til helårsbutikk nå. Markedet er lite (80 000 innbyggere), men turismen vokser raskt, er 59 % utenlandsk, og ingen fører Houdini i Nord-Norge.
 3. **Reservealternativ i Oslo:** 120-150 m² på Hegdehaugsveien/Bogstadveien. Lavere risiko (nullpunkt rundt 7-8 MNOK), men det er samme strøk som butikken som ble stengt, gir svakere merkeløft og har nesten ingen turiststrøm.
 
@@ -28,7 +28,7 @@ Begrunnelsen i én setning: Houdini priser seg på Norrøna- og Arc'teryx-nivå,
 
 **Strategi:** Bærekraft er kjernen: Planetary Boundaries-rapport (2018 og 2024), bruktsalg siden 2011, utleie siden 2012, reparasjon, og 85 % sirkulære materialer i vår/sommer 2026. Under Høgberg handler det om å skalere via partnere og samtidig bygge egen DTC (direkte salg til forbruker). Første shop-in-shop i Tyskland er hos Engelhorn i Mannheim.
 
-**Egne butikker:** Stockholm (Kungsgatan 30, Houdini Circle på Norrlandsgatan 12), Göteborg (Magasinsgatan 22), Åre, Barkarby outlet (gjenåpnet juni 2025). Ingen egen butikk i Norge i dag. Tidligere: **Oslo, Hegdehaugsveien 34**. Butikken var tegnet av Snøhetta, var på 70 m² og åpnet i desember 2016/2017. **Bent har fått opplyst at den ble stengt i 2022.** Jeg fant ingen nyhetssak om stengningen (IF), men at butikken mangler på Houdinis nyeste butikkliste, stemmer med det. Det norske selskapet er fortsatt registrert på adressen, og omsetningen på 9,6 MNOK i 2025 er da trolig salg til forhandlere og eventuelt nett, ikke butikksalg (A).
+**Egne butikker:** Stockholm (Kungsgatan 30, Houdini Circle på Norrlandsgatan 12), Göteborg (Magasinsgatan 22), Åre, Barkarby outlet (gjenåpnet juni 2025). Ingen egen butikk i Norge i dag. Tidligere: **Oslo, Hegdehaugsveien 34**. Butikken var tegnet av Snøhetta, var på 70 m² og åpnet i desember 2016/2017. **Butikken ble stengt i 2022** (Google, B). Den mangler også på Houdinis nyeste butikkliste. Det norske selskapet er fortsatt registrert på adressen, og omsetningen på 9,6 MNOK i 2025 er da trolig salg til forhandlere og eventuelt nett, ikke butikksalg (A).
 
 **Hvorfor stengte den?** Årsaken er ikke funnet. Sannsynlige forklaringer er at butikken var for liten (70 m²), at den lå utenfor de tekniske outdoorklyngene, pandemiårene, og at konsernet gikk med underskudd fra 2023 (A). Dette er det viktigste du må forstå i samtalen, fordi en ny butikk må løse det som gikk galt.
 
@@ -177,7 +177,7 @@ Han er norsk og kjenner markedet fra Helly Hansen og Odlo. Gå rett på tall.
 
 - **Husleie per gate** i Akersgata og Hegdehaugsveien er ikke funnet. Newsec-, Malling- og CBRE-rapportene ligger bak betalingsmur. Dette må hentes fra utleiere og meglere før en business case kan presenteres eksternt.
 - **Butikkdata fra Houdini:** omsetning per m² i Hub-en før den ble stengt, og i Stockholm-butikkene. Uten dette er salgsscenariene antakelser.
-- **Stengningen i 2022:** opplyst av Bent, men ikke funnet i åpne kilder. Årsaken er ukjent.
+- **Årsaken til stengningen i 2022** er ikke funnet.
 - **Fotgjengertall** for Akersgata og Karl Johan er ikke publisert (Via Metrics-sensorene finnes, men tallene er ikke offentlige).
 - **Tallene for 2025/26** som ligger bak Habits påstand om overskudd, er ikke funnet.
 - **Begrensning i datagrunnlaget:** Søket ble gjort uten tilgang til å lese kildesidene i sin helhet. Tall merket B står eksplisitt i kildeutdrag, men bør kontrolleres i primærkilden før de brukes i en presentasjon.
