@@ -5,9 +5,9 @@ Tillitsnivå per tall: **B** = bekreftet, **A** = antatt, **IF** = ikke funnet. 
 
 ## Anbefalingen
 
-1. **Oslo:** Flytt og oppgrader dagens Houdini Hub (Hegdehaugsveien 34, 70 m²) til **150-220 m² i Akersgata**, mellom Norrøna (nr. 30) og Klättermusen (nr. 43). Gjør butikken til en **Houdini Circle Oslo** med kjøp, leie, reparasjon og brukt under samme tak. Ikke Karl Johan: husleien krever omtrent 17 MNOK i netto salg for å gå i null, og det er nær dobbelt så mye som Houdini omsetter i Norge i dag.
+1. **Oslo:** Kom tilbake med **150-220 m² i Akersgata**, mellom Norrøna (nr. 30) og Klättermusen (nr. 43). Bent har fått opplyst at Houdini Hub (Hegdehaugsveien 34, 70 m²) ble stengt i 2022. Dette er en ny etablering, og første spørsmål fra Houdini blir hvorfor det skal gå bedre denne gangen. Gjør butikken til en **Houdini Circle Oslo** med kjøp, leie, reparasjon og brukt under samme tak. Ikke Karl Johan: husleien krever omtrent 17 MNOK i netto salg for å gå i null, og det er nær dobbelt så mye som Houdini omsetter i Norge i dag.
 2. **Tromsø:** Ja til en **vinter-pop-up (november-mars)** i Storgata, gjerne koblet til utleie gjennom en lokal aktør. Nei til helårsbutikk nå. Markedet er lite (80 000 innbyggere), men turismen vokser raskt, er 59 % utenlandsk, og ingen fører Houdini i Nord-Norge.
-3. **Reservealternativ i Oslo:** Bli på Hegdehaugsveien/Bogstadveien og utvid til 120-150 m². Lavere risiko (nullpunkt rundt 7-8 MNOK), men svakere merkeløft og nesten ingen turiststrøm.
+3. **Reservealternativ i Oslo:** 120-150 m² på Hegdehaugsveien/Bogstadveien. Lavere risiko (nullpunkt rundt 7-8 MNOK), men det er samme strøk som butikken som ble stengt, gir svakere merkeløft og har nesten ingen turiststrøm.
 
 Begrunnelsen i én setning: Houdini priser seg på Norrøna- og Arc'teryx-nivå, ikke Bergans-nivå, og bør derfor stå der de tekniske premiummerkene står. Akersgata gir den adressen uten Karl Johan-husleie.
 
@@ -28,9 +28,11 @@ Begrunnelsen i én setning: Houdini priser seg på Norrøna- og Arc'teryx-nivå,
 
 **Strategi:** Bærekraft er kjernen: Planetary Boundaries-rapport (2018 og 2024), bruktsalg siden 2011, utleie siden 2012, reparasjon, og 85 % sirkulære materialer i vår/sommer 2026. Under Høgberg handler det om å skalere via partnere og samtidig bygge egen DTC (direkte salg til forbruker). Første shop-in-shop i Tyskland er hos Engelhorn i Mannheim.
 
-**Egne butikker:** Stockholm (Kungsgatan 30, Houdini Circle på Norrlandsgatan 12), Göteborg (Magasinsgatan 22), Åre, Barkarby outlet (gjenåpnet juni 2025), og **Oslo, Hegdehaugsveien 34**. Oslo-butikken er tegnet av Snøhetta, er på 70 m² og åpnet i desember 2016/2017. Den mangler på Houdinis nyeste butikkliste. Om den er i drift i dag er **ikke bekreftet**, så det må avklares i samtalen.
+**Egne butikker:** Stockholm (Kungsgatan 30, Houdini Circle på Norrlandsgatan 12), Göteborg (Magasinsgatan 22), Åre, Barkarby outlet (gjenåpnet juni 2025). Ingen egen butikk i Norge i dag. Tidligere: **Oslo, Hegdehaugsveien 34**. Butikken var tegnet av Snøhetta, var på 70 m² og åpnet i desember 2016/2017. **Bent har fått opplyst at den ble stengt i 2022.** Jeg fant ingen nyhetssak om stengningen (IF), men at butikken mangler på Houdinis nyeste butikkliste, stemmer med det. Det norske selskapet er fortsatt registrert på adressen, og omsetningen på 9,6 MNOK i 2025 er da trolig salg til forhandlere og eventuelt nett, ikke butikksalg (A).
 
-**Egne butikker eller sportsbutikker? Begge deler.** I Norge selges Houdini via Fjellsport, Naturkompaniet (nett), Gullsport, Widforss, VPG, Skistarshop, Outnorth og Jobb og Fritid (B). Oslo Sportslager har Houdini som merke i nettbutikken (A). Houdini finnes **ikke** hos XXL, Anton Sport, Intersport eller Sport 1 (IF). Det siste er viktig: Sport Holding eier Bergans, Anton Sport, Intersport og Sport 1, og har 50,6 % av kjedemarkedet. Halve det norske kjedemarkedet er i praksis stengt for Houdini. Egne butikker er derfor hovedveien til synlighet i Norge.
+**Hvorfor stengte den?** Årsaken er ikke funnet. Sannsynlige forklaringer er at butikken var for liten (70 m²), at den lå utenfor de tekniske outdoorklyngene, pandemiårene, og at konsernet gikk med underskudd fra 2023 (A). Dette er det viktigste du må forstå i samtalen, fordi en ny butikk må løse det som gikk galt.
+
+**Egne butikker eller sportsbutikker? Begge deler.** I Norge selges Houdini via Fjellsport, Naturkompaniet (nett), Gullsport, Widforss, VPG, Skistarshop, Outnorth og Jobb og Fritid (B). Oslo Sportslager har Houdini som merke i nettbutikken (A). Houdini finnes **ikke** hos XXL, Anton Sport, Intersport eller Sport 1 (IF). Det siste er viktig: Sport Holding eier Bergans, Anton Sport, Intersport og Sport 1, og har 50,6 % av kjedemarkedet. Halve det norske kjedemarkedet er i praksis stengt for Houdini. Egne butikker er derfor hovedveien til synlighet i Norge, og Houdini har ingen egen butikk i Norge i dag.
 
 ## 2. Segment og pris: fire merker
 
@@ -72,7 +74,7 @@ Prisindeksen er egen beregning ut fra tabellen (A). Houdini-priser merket A er o
 **Klynger:**
 - **Karl Johan 18-21:** Arc'teryx, Fjällräven og Peak Performance. Sterkeste tekniske klynge, forsterket i 2026.
 - **Akersgata:** Norrøna og Klättermusen, 3-5 minutter fra Karl Johan. Destinasjonsgate for premium outdoor.
-- **Hegdehaugsveien/Bogstadveien:** Houdini, Naturkompaniet, Anton Sport, Henri-Lloyd/Odlo og Holzweiler. Lokalt kjøpesterkt publikum fra vestkanten.
+- **Hegdehaugsveien/Bogstadveien:** Naturkompaniet, Anton Sport, Henri-Lloyd/Odlo og Holzweiler. Houdini lå her til 2022. Lokalt kjøpesterkt publikum fra vestkanten.
 - **Rådhuset/Vika:** Bergans alene.
 
 Det viktigste konkurransesignalet: **Klättermusen**, som er det svenske merket som ligner mest på Houdini, valgte Akersgata for sin største butikk i Europa i 2025. **Arc'teryx** har gått inn på Houdinis eget territorium med reparasjon og ombruk i Karl Johan. Houdini må svare med et sterkere sirkulært konsept, ellers forsvinner differensieringen.
@@ -115,7 +117,8 @@ Innredning for 200 m² anslås til ca. 3 MNOK.
 
 **Ærlig vurdering:**
 - I basis gir Akersgata et driftsresultat rundt null. Butikken er en investering i merkevaren som betaler seg gjennom grossistsalg og nettsalg i Norge, ikke en kontantmaskin.
-- Basisomsetningen på 11 MNOK er høyere enn hele det norske selskapet omsatte i 2025 (9,6 MNOK). Det krever en reell vekstambisjon fra Houdini.
+- Basisomsetningen på 11 MNOK er høyere enn hele det norske selskapet omsatte i 2025 (9,6 MNOK, trolig uten egen butikk). Det krever en reell vekstambisjon fra Houdini.
+- **Hva som må være annerledes enn i 2022:** dobbelt til tredobbelt areal, en adresse i den tekniske premiumklyngen i stedet for et motestrøk, turiststrøm (Oslo har rekordmange utenlandske gjester og Asia er Houdinis største marked), et sirkulært konsept som skiller seg fra Arc'teryx, og en ledelse som satser på direkte salg til forbruker.
 - Karl Johan går ikke opp på Houdinis nåværende skala.
 
 ## 5. Innsiktsmodell Tromsø
@@ -162,7 +165,7 @@ Inntekter fra utleie er ikke tatt med. De er oppsiden.
 Han er norsk og kjenner markedet fra Helly Hansen og Odlo. Gå rett på tall.
 
 **Spørsmål å stille (ett av gangen):**
-1. Er Hub-en i Hegdehaugsveien i drift, og går kontrakten ut snart?
+1. Hva var grunnen til at dere stengte Hub-en i 2022, og hva må være annerledes for at dere skal komme tilbake?
 2. Hva er ambisjonen for Norge i omsetning om tre år? Over 10 MNOK i én butikk forutsetter det.
 3. Vil dere bygge Circle-konseptet fra Stockholm i Oslo?
 4. Hvor stor andel av det norske salget går i dag gjennom egen butikk, nett og forhandlere?
@@ -173,7 +176,8 @@ Han er norsk og kjenner markedet fra Helly Hansen og Odlo. Gå rett på tall.
 ## 7. Hva tallene ikke forteller
 
 - **Husleie per gate** i Akersgata og Hegdehaugsveien er ikke funnet. Newsec-, Malling- og CBRE-rapportene ligger bak betalingsmur. Dette må hentes fra utleiere og meglere før en business case kan presenteres eksternt.
-- **Butikkdata fra Houdini:** omsetning per m² i Hub-en og i Stockholm-butikkene. Uten dette er salgsscenariene antakelser.
+- **Butikkdata fra Houdini:** omsetning per m² i Hub-en før den ble stengt, og i Stockholm-butikkene. Uten dette er salgsscenariene antakelser.
+- **Stengningen i 2022:** opplyst av Bent, men ikke funnet i åpne kilder. Årsaken er ukjent.
 - **Fotgjengertall** for Akersgata og Karl Johan er ikke publisert (Via Metrics-sensorene finnes, men tallene er ikke offentlige).
 - **Tallene for 2025/26** som ligger bak Habits påstand om overskudd, er ikke funnet.
 - **Begrensning i datagrunnlaget:** Søket ble gjort uten tilgang til å lese kildesidene i sin helhet. Tall merket B står eksplisitt i kildeutdrag, men bør kontrolleres i primærkilden før de brukes i en presentasjon.
