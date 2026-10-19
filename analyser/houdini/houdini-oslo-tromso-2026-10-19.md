@@ -134,7 +134,10 @@ Tolkning: «Kia per store» er lest som **pop-up store**. Si fra hvis noe annet 
 | Cruise | 193 362 passasjerer i 2025 (-4 %) | A |
 | Friluft | Midnight Sun Marathon med nesten 9 000 løpere (rekord 2025), topptur i Lyngsalpene februar-mai, flere guideselskaper | B |
 | Studenter | UiT har 16 610 studenter (alle campuser) | B |
-| Konkurrenter | Norrøna (Storgata), Bergans, Fjellshop/Fjällräven (Storgata 52), Nansen Outdoor (Helly Hansen), Sport 1 Jekta (Arc'teryx, Patagonia), Pyramiden Sport (Arc'teryx, Norrøna), Intersport, XXL | B / A |
+| Egne merkebutikker | Norrøna Concept Store, Alti Nerstranda (Nerstranda 9, 3. etg.). Drives av eget selskap (org.nr. 992 661 380), trolig franchise. Bergans Brand Store, Samuel Arnesens gate 5 ved havna | B / A |
+| Merkeeid kjede | Naturkompaniet (Fenix Outdoor, samme eier som Fjällräven), Storgata 52, åpnet 3.11.2023 | B |
+| Multibrand | Nansen Outdoor (Helly Hansen). Arc'teryx via Sport 1 Jekta, Jobb og Fritid Veita, Tromsø Ski & Sykkel og City to Summit (Kirkegata 6). Pyramiden Sport (Arc'teryx, Norrøna). Intersport, XXL | B / A |
+| Ingen egen butikk funnet | Arc'teryx, Fjällräven, Helly Hansen, Devold, Patagonia, Klättermusen | IF |
 | Houdini i Tromsø | Ingen forhandler funnet i Nord-Norge | IF |
 | Husleie | Ca. 3 635 kr/m²/år for de beste lokalene (Advanti Q4 2025) | A |
 | Ledige lokaler | Triko (Storgata 69), Polaris (Storgata 67 og 70), Veita (Storgata 102), Eiendomsspar (Storgata 1) | B |
