@@ -31,7 +31,7 @@ Oppdraget: finne relevante butikklokaler i Oslo for Houdini Sportswear, slik at 
 4. Nyheter: «legger ned», «konkurs», «flytter» + Bogstadveien, Hegdehaugsveien og sidegatene; Brønnøysund (konkurser i området).
 5. Kreativ sondering: gå gjennom én eller to sidegater per dag og noter lokaler som kan passe, også om de ikke er ledige.
 
-Direkte henting av nettsider blir ofte blokkert av proxyen. Prøv WebFetch, deretter WebFetch på `https://r.jina.ai/<url>`, deretter søkeutdrag. Skriv i loggen hva som ikke kunne leses.
+Noen nettsider kan ikke hentes direkte. Bruk da søkeutdrag og sidene som kan leses, og skriv i loggen hva som ikke kunne leses.
 
 ## Faktakrav
 
