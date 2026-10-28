@@ -40,13 +40,44 @@ Noen nettsider kan ikke hentes direkte. Bruk da søkeutdrag og sidene som kan le
 - Ikke finn på navn, telefonnumre, e-poster, arealer eller priser.
 - Skriv «antatt» der noe er antatt.
 
+## Dagsmål: 10 nye relevante lokaler
+
+Hver daglige kjøring har som mål å legge inn **10 nye relevante lokaler** i «Muligheter». Alle tas med i fredagsmailen.
+
+- Relevant betyr: gateplan eller høy 1. etasje, opptil ca. 200 m² (inntil 250 hvis spesielt godt), innenfor områdene i «Kriterier», og med kilde. Ikke ledige lokaler teller når bygget, lokalet og eier eller kontaktrute er konkret.
+- Et lokale teller bare én gang. Endringer på kjente lokaler teller ikke mot målet.
+- Målet nås med bredde og kreativitet, aldri ved å finne på fakta eller fylle på med irrelevante lokaler. Blir det færre enn 10, skriv antallet og hvorfor i «Logg».
+- Bruk gjerne en subagent til researchen og skriv radene inn selv etterpå.
+
+### Ukesrotasjon
+
+Dagens hovedfelt kommer i tillegg til FINN, meglersidene og nyhetssøket som kjøres hver dag.
+
+| Dag | Hovedfelt |
+|---|---|
+| Mandag | Bogstadveien hus for hus, nr. 1 til 70: hvem leier, hvem eier, hvilke 1. etasjer er høye eller typete |
+| Tirsdag | Hegdehaugsveien og Homansbyen: Underhaugsveien, Oscars gate, Josefines gate, Parkveien, Professor Dahls gate, Niels Juels gate |
+| Onsdag | Sidegatene til Bogstadveien: Industrigata, Holtegata, Sporveisgata, Rosenborggata, Neuberggata, Schultz' gate, Majorstuveien, Sorgenfrigata, Jacob Aalls gate, Vibes gate |
+| Torsdag | Majorstukrysset og kjøpesentrene: Kirkeveien, Valkyrien, Colosseum, Majorstuhuset, Majorstutorget, Valkyriegata |
+| Fredag | Uranienborg, Briskeby og Frogner: Uranienborgveien, Briskebyveien, Frognerveien, Gabels gate, Bygdøy allé, Fagerborg |
+| Lørdag | Typete bygg på tvers av områdene: nedlagte bankfilialer, apotek, postkontor, verksteder, garasjer, bakgårder med gateadkomst, gallerier, villaer. Sentrum som sekundært. |
+| Søndag | Nedleggelser, konkurser, Brreg-kunngjøringer og flyttinger i hele området, og oppfølging av gårdeiernes porteføljer (Thon, Carucel, Vatne, Eiendomsspar, Vaxa, Bjerke, Andenæs) |
+
+### Kreative innganger
+
+- Leietakere som har varslet nedleggelse, gått konkurs eller flyttet.
+- Lokaler med kort gjenværende kontrakt eller kjeder som trapper ned.
+- Bygg med kjent karakter (lokalhistoriewiki, Oslo byleksikon, Byantikvaren): høye 1. etasjer, hjørner, tidligere bankhaller og verksteder.
+- Gårdeiere med flere bygg i aksen: neste ledige enhet i porteføljen.
+- Midlertidige og pop-up-lokaler som en vei inn.
+
 ## Daglig kjøring (kl. 15)
 
 1. Åpne arket «Houdini Oslo lokaler, sondering» (ID `1SoD3bBCNppP9HySSTWvo-zTTC8-oQ8RyhYEstNwJZjk`). Les fanene «Muligheter», «Søkeoppsett» og «Meglere og gårdeiere».
-2. Kjør alle kildene over. Sammenlign med eksisterende rader (adresse) for å unngå dubletter.
-3. Nye lokaler: legg til rad i «Muligheter» med neste ID (H-001, H-002 ...), «Først sett» = dagens dato.
+2. Kjør de faste kildene og dagens hovedfelt fra rotasjonen. Sammenlign med eksisterende rader (adresse) for å unngå dubletter.
+3. Nye lokaler: legg til rad i «Muligheter» med neste ID (H-001, H-002 ...), «Først sett» = dagens dato. Mål: 10 nye.
 4. Kjente lokaler: oppdater «Sist sjekket», status og endringer (for eksempel utleid eller ny pris).
-5. Legg til én rad i «Logg»: dato, kilder sjekket, nye ID-er, endringer, hva som var blokkert.
+5. Legg til én rad i «Logg»: dato, dagens hovedfelt, kilder sjekket, nye ID-er og antall mot målet på 10, endringer, hva som var blokkert.
 6. Ikke send e-post i den daglige kjøringen.
 
 ## Fredagsmail (kl. 08)
@@ -56,10 +87,10 @@ Til: bent@odeon.no, og bare denne adressen. Send med Gmail. Hvis sending ikke er
 Emne: «Houdini lokaler uke NN: X nye, Y aktuelle»
 
 Innhold (HTML, ryddig, bokmål, ingen tankestrek, ingen «bør»):
-1. Kort status: antall nye siden forrige fredag, antall aktive totalt, hva som er endret.
+1. Kort status: antall nye siden forrige fredag mot målet (10 per dag), antall aktive totalt, hva som er endret.
 2. Topp 5 denne uka, sortert på score: adresse, hvorfor Houdini, areal og etasje, status, kontaktperson med telefon og e-post (eller konkret kontaktrute), kilde-lenke.
 3. Kreative forslag (ikke ledige): 3 til 5 lokaler med begrunnelse og hvem som eier dem.
-4. Alle øvrige aktive muligheter i en kort tabell.
+4. Alle nye lokaler fra uka som ikke står over, og deretter øvrige aktive muligheter, i en kort tabell med kontakt.
 5. Nytt fra markedet: nedleggelser, konkurser, nyåpninger i området.
 6. Forslag til hvilke tre lokaler som kan sendes til CEO, med én setning hver. Bare lokaler med score 4 eller 5.
 7. Metode: kilder sjekket, hva som var blokkert, lenke til arket.
